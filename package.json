@@ -1,0 +1,23 @@
+{
+  "name": "techdegree-project-6",
+  "version": "1.0.0",
+  "description": "Build a content scraper",
+  "main": "scraper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syriaca/techdegree-project-6.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/syriaca/techdegree-project-6/issues"
+  },
+  "homepage": "https://github.com/syriaca/techdegree-project-6#readme",
+  "dependencies": {
+    "json2csv": "^4.1.3",
+    "scrape-it": "^5.0.5"
+  }
+}
