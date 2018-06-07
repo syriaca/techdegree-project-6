@@ -2,6 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const scrapeIt = require('scrape-it');
 const dateFormat = require('dateformat');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
 let now = new Date()
 
 const hostname = '127.0.0.1';
@@ -43,7 +45,6 @@ scrapeIt('http://shirts4mike.com/shirts.php', {
 }, (err, { data }) => {
     for (var key in data.links) {
       let tempUrl = 'http://shirts4mike.com/'+data.links[key].url;
-      let test = new Date();
       scrapeIt(tempUrl, {
         title: {
           selector: '.shirt-picture img',
@@ -58,6 +59,29 @@ scrapeIt('http://shirts4mike.com/shirts.php', {
         data.url = tempUrl;
         data.date = dateFormat(now, 'yyyy-mm-dd');        
         console.log(err || data);
+        const csvWriter = createCsvWriter({
+          path: 'data/file.csv',
+          header: [
+              {id: 'title', title: 'TITLE'},
+              {id: 'imageUrl', title: 'IMAGEURL'},
+              {id: 'price', title: 'PRICE'},
+              {id: 'url', title: 'URL'},
+              {id: 'date', title: 'DATE'}
+          ]
+      });
+       
+      const records = [
+        {
+          title: data.title,
+          imageUrl: data.imageUrl,
+          price: data.price,
+          url: data.url,
+          date: data.date         
+        }
+      ];
+       
+      Promise.resolve()
+        .then(() => csvWriter.writeRecords(records))
       });
     }
 });
