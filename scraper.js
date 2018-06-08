@@ -7,11 +7,10 @@ const hostname = '127.0.0.1';
 const port = 3000;
 let now = new Date();
 
-// Initialize server
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end();
+  res.end('Hello World\n');
 });
 
 server.listen(port, hostname, () => {
@@ -29,7 +28,9 @@ fs.readdir('data', (err, files) => {
   }
   // If directory reading is not possible, then error is thrown so... I take advantage from that to create the folder and do nothing if folder doesn't exist //
   if(err) {
-    fs.mkdir('data', () => {});        
+    fs.mkdir('data', () => {
+      console.log('data folder created');
+    });        
   }
 });
 
