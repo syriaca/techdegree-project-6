@@ -20,6 +20,8 @@
     "csv-writer": "^1.0.0",
     "dateformat": "^3.0.3",
     "http": "0.0.0",
+    "nodemon": "^1.17.5",
+    "npm": "^6.1.0",
     "scrape-it": "^5.0.5"
   }
 }
