@@ -9,7 +9,7 @@ let now = new Date();
 let today = dateFormat(now, 'yyyy-mm-dd');
 let records = [];
 
-//== Then we create a csv file
+//== CsvWriter configuration
 const csvWriter = createCsvWriter({
   path: 'data/'+today+'.csv',
   header: [
@@ -25,9 +25,13 @@ const csvWriter = createCsvWriter({
 
 fs.readdir('data', (err, files) => {
   // If there is a file in the folder we delete it
-  if(files){
+  if(files.length > 0){
     fs.unlink('data/'+files, (err) => {
-      console.log('File has been deleted');
+      if (err) {
+        console.log('Cannot reach file, operation not permitted');
+      } else {
+        console.log('data/'+files+' was deleted');
+      }
     });
   } else {
     console.log('File has been created');
@@ -56,7 +60,7 @@ try {
               }
           }
       }
-      // After getting that "link's object" use data to get price, title, url and image url save this information into a CSV file name formated like: YYYY-MM-DD.csv.
+      // After getting that "link's object" use data object to scrape price, title, url and image url save this information into a CSV file name formated like: YYYY-MM-DD.csv.
   }, (err, { data }) => {
       // For each data entry
       for (let i = 0; i < data.links.length; i++) {
@@ -89,6 +93,7 @@ try {
           date: data.date         
         }
         
+        // Push object to make records array
         records.push(record);
 
         // Write object record to the csv file
