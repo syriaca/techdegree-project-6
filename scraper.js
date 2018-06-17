@@ -25,7 +25,7 @@ const csvWriter = createCsvWriter({
 
 fs.readdir('data', (err, files) => {
   // If there is a file in the folder we delete it
-  if(files.length > 0){
+  if(files){
     fs.unlink('data/'+files, (err) => {
       if (err) {
         console.log('Cannot reach file, operation not permitted');
