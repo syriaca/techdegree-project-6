@@ -7,10 +7,10 @@ const hostname = '127.0.0.1';
 const port = 3000;
 let now = new Date();
 let today = dateFormat(now, 'yyyy-mm-dd');
+let records = [];
 
 //== Then we create a csv file
 const csvWriter = createCsvWriter({
-  append: true,
   path: 'data/'+today+'.csv',
   header: [
       {id: 'title', title: 'TITLE'},
@@ -81,15 +81,15 @@ try {
           data.date = today;      
         
         // Make the object for each line of the csv file
-        const records = [
-          {
-            title: data.title,
-            imageUrl: data.imageUrl,
-            price: data.price,
-            url: data.url,
-            date: data.date         
-          }
-        ];
+        let record = {
+          title: data.title,
+          imageUrl: data.imageUrl,
+          price: data.price,
+          url: data.url,
+          date: data.date         
+        }
+        
+        records.push(record);
 
         // Write object record to the csv file
         csvWriter.writeRecords(records);
