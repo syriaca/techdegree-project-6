@@ -1,10 +1,7 @@
-const http = require('http');
 const fs = require('fs');
 const scrapeIt = require('scrape-it');
 const dateFormat = require('dateformat');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-const hostname = '127.0.0.1';
-const port = 3000;
 let now = new Date();
 let today = dateFormat(now, 'yyyy-mm-dd');
 let records = [];
@@ -14,10 +11,10 @@ const csvWriter = createCsvWriter({
   path: 'data/'+today+'.csv',
   header: [
       {id: 'title', title: 'TITLE'},
-      {id: 'imageUrl', title: 'IMAGEURL'},
       {id: 'price', title: 'PRICE'},
+      {id: 'imageUrl', title: 'IMAGEURL'},
       {id: 'url', title: 'URL'},
-      {id: 'date', title: 'DATE'}
+      {id: 'time', title: 'TIME'}
   ]
 });
 
@@ -33,14 +30,12 @@ fs.readdir('data', (err, files) => {
         console.log('data/'+files+' was deleted');
       }
     });
-  } else {
-    console.log('File has been created');
   }
   // If directory reading is not possible, then error is thrown so... I take advantage from that to create the folder and do nothing if folder doesn't exist //
   if(err) {
     fs.mkdir('data', () => {
       console.log('Data folder created');
-    });        
+    });
   } else {
     console.log('Data folder already exist');
   }
@@ -82,27 +77,29 @@ try {
           // Add page URL
           data.url = tempUrl;
           // Add timestamp
-          data.date = today;      
-        
+          data.time = today;
+
         // Make the object for each line of the csv file
         let record = {
           title: data.title,
-          imageUrl: data.imageUrl,
           price: data.price,
+          imageUrl: data.imageUrl,
           url: data.url,
-          date: data.date         
+          time: data.time
         }
-        
+
         // Push object to make records array
         records.push(record);
 
         // Write object record to the csv file
         csvWriter.writeRecords(records);
+        
         });
+        
       }
   });
 } catch (error) {
-  if(error.code === 'ERR_ASSERTION') {
+  if(error.message === 'protocol mismatch') {
     console.error(`Cannot connect to Tshirts 4 mike\nReason: ${error.message}`);
   }
 }
